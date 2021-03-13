@@ -1,4 +1,4 @@
-package com.lopez.rafael.SpringSecurityBank;
+package com.lopez.rafael.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
