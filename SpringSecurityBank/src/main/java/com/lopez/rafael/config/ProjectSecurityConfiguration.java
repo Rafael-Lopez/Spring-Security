@@ -1,9 +1,11 @@
 package com.lopez.rafael.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
 public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -26,18 +28,18 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /*
          * Custom configuration as per our requirements
          */
-//        http
-//            .authorizeRequests()
-//                .antMatchers("/account").authenticated()
-//                .antMatchers("/balance").authenticated()
-//                .antMatchers("/loan").authenticated()
-//                .antMatchers("/card").authenticated()
-//                .antMatchers("/notices").permitAll()
-//                .antMatchers("/contact").permitAll()
-//            .and()
-//            .formLogin()
-//            .and()
-//            .httpBasic();
+        http
+            .authorizeRequests()
+                .antMatchers("/account").authenticated()
+                .antMatchers("/balance").authenticated()
+                .antMatchers("/loan").authenticated()
+                .antMatchers("/card").authenticated()
+                .antMatchers("/notices").permitAll()
+                .antMatchers("/contact").permitAll()
+            .and()
+            .formLogin()
+            .and()
+            .httpBasic();
 
         /*
          * Configuration to deny all requests
@@ -47,6 +49,18 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /*
          * Configuration to permit all requests
          */
-        http.authorizeRequests().anyRequest().permitAll().and().formLogin().and().httpBasic();
+//        http.authorizeRequests().anyRequest().permitAll().and().formLogin().and().httpBasic();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .inMemoryAuthentication()
+                .withUser("admin").password("admin").authorities("admin")
+                .and()
+                .withUser("user").password("user").authorities("read")
+                .and()
+                //Always pass it. If no passwordEncoder, Spring doesn't know how to process password -> throws error
+                .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 }
