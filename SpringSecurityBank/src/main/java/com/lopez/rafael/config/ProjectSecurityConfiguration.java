@@ -26,17 +26,22 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /*
          * Custom configuration as per our requirements
          */
-        http
-            .authorizeRequests()
-                .antMatchers("/account").authenticated()
-                .antMatchers("/balance").authenticated()
-                .antMatchers("/loan").authenticated()
-                .antMatchers("/card").authenticated()
-                .antMatchers("/notices").permitAll()
-                .antMatchers("/contact").permitAll()
-            .and()
-            .formLogin()
-            .and()
-            .httpBasic();
+//        http
+//            .authorizeRequests()
+//                .antMatchers("/account").authenticated()
+//                .antMatchers("/balance").authenticated()
+//                .antMatchers("/loan").authenticated()
+//                .antMatchers("/card").authenticated()
+//                .antMatchers("/notices").permitAll()
+//                .antMatchers("/contact").permitAll()
+//            .and()
+//            .formLogin()
+//            .and()
+//            .httpBasic();
+        
+        /*
+         * Configuration to deny all requests
+         */
+        http.authorizeRequests().anyRequest().denyAll().and().formLogin().and().httpBasic();
     }
 }
