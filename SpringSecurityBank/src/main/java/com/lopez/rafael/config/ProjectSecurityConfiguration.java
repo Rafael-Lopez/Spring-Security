@@ -97,8 +97,8 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * users via code since users already exists in the DB. All we need is a UserDetailsService bean
      * of type JdbcUserDetailsManager
      */
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
 }
