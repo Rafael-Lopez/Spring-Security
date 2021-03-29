@@ -40,10 +40,17 @@ a) Create the table where you will have user details. In this case:
 	create table customer (
 		id int not null auto_increment,
 		email varchar(45) not null,
-		password varchar(45) not null,
+		password varchar(200) not null,
 		role varchar(45) not null,
 		primary key(id)
 	);
 
 b) Insert default user:
 	insert ignore into customer values (null, 'test@test.com', '123', 'admin');
+
+********************************************************************************
+                           BCrypt Password Encoder 
+********************************************************************************
+
+a) When using BCryptPasswordEncoder as the password encoder for Spring Security, you can create the password using https://bcrypt-generator.com/
+	insert ignore into customer values (null, 'happy@test.com', '$2y$12$GPiRujI4Eawbvvq7mhbDnu6LKzCu02y7fSQsFOM57X5gHxsu/NNni', 'admin');
