@@ -1,13 +1,30 @@
 package com.lopez.rafael.controller;
 
+import com.lopez.rafael.model.AccountTransactions;
+import com.lopez.rafael.model.Customer;
+import com.lopez.rafael.repository.AccountTransactionsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class BalanceController {
 
-    @GetMapping("/balance")
-    public String getBalance(String input) {
-        return "Balance details";
+    @Autowired
+    private AccountTransactionsRepository accountTransactionsRepository;
+
+    @PostMapping("/myBalance")
+    public List<AccountTransactions> getBalanceDetails(@RequestBody Customer customer) {
+        List<AccountTransactions> accountTransactions = accountTransactionsRepository.
+                findByCustomerIdOrderByTransactionDtDesc(customer.getId());
+        if (accountTransactions != null ) {
+            return accountTransactions;
+        }else {
+            return null;
+        }
     }
 }
