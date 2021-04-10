@@ -73,10 +73,14 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/contact")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
             .authorizeRequests()
-                .antMatchers("/account").authenticated()
-                .antMatchers("/balance").authenticated()
-                .antMatchers("/loan").authenticated()
-                .antMatchers("/card").authenticated()
+                //Only users that are authenticated and have the given authority
+                .antMatchers("/myAccount").hasAuthority("WRITE")
+                .antMatchers("/myBalance").hasAuthority("READ")
+                .antMatchers("/myLoans").hasAuthority("DELETE")
+                //Any user that is authenticated
+                .antMatchers("/myCards").authenticated()
+                .antMatchers("/user").authenticated()
+                //Authorization only comes after authentication. Therefore, non-authenticated endpoints cannot have authorization
                 .antMatchers("/notices").permitAll()
                 .antMatchers("/contact").permitAll()
             .and()
