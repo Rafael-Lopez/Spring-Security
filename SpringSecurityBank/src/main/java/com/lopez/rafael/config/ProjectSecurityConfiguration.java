@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -58,7 +60,15 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     }
                 })
             .and()
-            .csrf().disable()
+            //.csrf().disable()
+            //withHttpOnlyFalse() ensures that the UI application can read the token/cookie. For example, when the user
+            //logs in via the login page, Spring sends a response for the request along with Set-cookie header which
+            //contains a securely generated XSRF-TOKEN. Then, when sending a state-changing request (e.g. POST) the
+            //client copies the cookie value to the HTTP request header. The request is sent with both header and cookie
+            //(the browser attaches the cookie automatically), and Spring compares the header and the cookie values,
+            //if they are the same the request is accepted, otherwise, 403 is returned to the client.
+            //https://stackoverflow.com/a/62650184
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
             .authorizeRequests()
                 .antMatchers("/account").authenticated()
                 .antMatchers("/balance").authenticated()
