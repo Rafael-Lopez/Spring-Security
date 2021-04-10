@@ -72,7 +72,7 @@ CREATE TABLE `accounts` (
 );
 
 INSERT INTO `accounts` (`customer_id`, `account_number`, `account_type`, `branch_address`, `create_dt`)
- VALUES (1, 186576453434, 'Savings', '123 Main Street, New York', CURDATE());
+ VALUES (2, 186576453434, 'Savings', '123 Main Street, New York', CURDATE());
  
 CREATE TABLE `account_transactions` (
   `transaction_id` varchar(200) NOT NULL,
@@ -94,22 +94,22 @@ CREATE TABLE `account_transactions` (
 
  
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-7, 'Coffee Shop', 'Withdrawal', 30,34500,CURDATE()-7);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-7, 'Coffee Shop', 'Withdrawal', 30,34500,CURDATE()-7);
 
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-6, 'Uber', 'Withdrawal', 100,34400,CURDATE()-6);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-6, 'Uber', 'Withdrawal', 100,34400,CURDATE()-6);
 
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-5, 'Self Deposit', 'Deposit', 500,34900,CURDATE()-5);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-5, 'Self Deposit', 'Deposit', 500,34900,CURDATE()-5);
 
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-4, 'Ebay', 'Withdrawal', 600,34300,CURDATE()-4);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-4, 'Ebay', 'Withdrawal', 600,34300,CURDATE()-4);
 
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-2, 'OnlineTransfer', 'Deposit', 700,35000,CURDATE()-2);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-2, 'OnlineTransfer', 'Deposit', 700,35000,CURDATE()-2);
 
 INSERT INTO `account_transactions` (`transaction_id`, `account_number`, `customer_id`, `transaction_dt`, `transaction_summary`, `transaction_type`,`transaction_amt`, 
-`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 1, CURDATE()-1, 'Amazon.com', 'Withdrawal', 100,34900,CURDATE()-1);
+`closing_balance`, `create_dt`)  VALUES (UUID(), 186576453434, 2, CURDATE()-1, 'Amazon.com', 'Withdrawal', 100,34900,CURDATE()-1);
 
 
 CREATE TABLE `loans` (
@@ -127,16 +127,16 @@ CREATE TABLE `loans` (
 );
 
 INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
- VALUES ( 1, '2020-10-13', 'Home', 200000, 50000, 150000, '2020-10-13');
+ VALUES ( 2, '2020-10-13', 'Home', 200000, 50000, 150000, '2020-10-13');
  
 INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
- VALUES ( 1, '2020-06-06', 'Vehicle', 40000, 10000, 30000, '2020-06-06');
+ VALUES ( 2, '2020-06-06', 'Vehicle', 40000, 10000, 30000, '2020-06-06');
  
 INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
- VALUES ( 1, '2018-02-14', 'Home', 50000, 10000, 40000, '2018-02-14');
+ VALUES ( 2, '2018-02-14', 'Home', 50000, 10000, 40000, '2018-02-14');
 
 INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
- VALUES ( 1, '2018-02-14', 'Personal', 10000, 3500, 6500, '2018-02-14');
+ VALUES ( 2, '2018-02-14', 'Personal', 10000, 3500, 6500, '2018-02-14');
 
 CREATE TABLE `cards` (
   `card_id` int NOT NULL AUTO_INCREMENT,
@@ -153,13 +153,13 @@ CREATE TABLE `cards` (
 );
 
 INSERT INTO `cards` (`card_number`, `customer_id`, `card_type`, `total_limit`, `amount_used`, `available_amount`, `create_dt`)
- VALUES ('4565XXXX4656', 1, 'Credit', 10000, 500, 9500, CURDATE());
+ VALUES ('4565XXXX4656', 2, 'Credit', 10000, 500, 9500, CURDATE());
 
 INSERT INTO `cards` (`card_number`, `customer_id`, `card_type`, `total_limit`, `amount_used`, `available_amount`, `create_dt`)
- VALUES ('3455XXXX8673', 1, 'Credit', 7500, 600, 6900, CURDATE());
+ VALUES ('3455XXXX8673', 2, 'Credit', 7500, 600, 6900, CURDATE());
  
 INSERT INTO `cards` (`card_number`, `customer_id`, `card_type`, `total_limit`, `amount_used`, `available_amount`, `create_dt`)
- VALUES ('2359XXXX9346', 1, 'Credit', 20000, 4000, 16000, CURDATE());
+ VALUES ('2359XXXX9346', 2, 'Credit', 20000, 4000, 16000, CURDATE());
  
 CREATE TABLE `notice_details` (
   `notice_id` int NOT NULL AUTO_INCREMENT,

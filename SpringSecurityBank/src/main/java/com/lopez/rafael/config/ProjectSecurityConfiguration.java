@@ -58,6 +58,7 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     }
                 })
             .and()
+            .csrf().disable()
             .authorizeRequests()
                 .antMatchers("/account").authenticated()
                 .antMatchers("/balance").authenticated()
