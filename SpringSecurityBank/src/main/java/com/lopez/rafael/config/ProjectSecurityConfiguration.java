@@ -68,7 +68,10 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
             //(the browser attaches the cookie automatically), and Spring compares the header and the cookie values,
             //if they are the same the request is accepted, otherwise, 403 is returned to the client.
             //https://stackoverflow.com/a/62650184
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+            .csrf()
+                //csrf should not be enabled for /contact page, but it should for the rest
+                .ignoringAntMatchers("/contact")
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
             .authorizeRequests()
                 .antMatchers("/account").authenticated()
                 .antMatchers("/balance").authenticated()
