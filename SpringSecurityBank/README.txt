@@ -225,3 +225,10 @@ Then:
 	INSERT INTO `authorities` (`customer_id`, `name`) VALUES (2, 'READ');
  
 	INSERT INTO `authorities` (`customer_id`, `name`) VALUES (2, 'WRITE');
+
+********************************************************************************
+                                  Adding roles 
+********************************************************************************
+
+UPDATE authorities SET name="ROLE_USER" WHERE id=1;
+UPDATE authorities SET name="ROLE_ADMIN" WHERE id=2;

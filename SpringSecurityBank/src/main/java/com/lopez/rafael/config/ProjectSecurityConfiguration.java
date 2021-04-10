@@ -73,10 +73,12 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers("/contact")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
             .authorizeRequests()
-                //Only users that are authenticated and have the given authority
-                .antMatchers("/myAccount").hasAuthority("WRITE")
-                .antMatchers("/myBalance").hasAuthority("READ")
-                .antMatchers("/myLoans").hasAuthority("DELETE")
+                //Only users that are authenticated and have the given role
+                //Spring automatically prefixes the role we pass in with "ROLE_", that's why in the DB
+                //we have to add roles with the "ROLE_" prefix, but we don't need it in the code.
+                .antMatchers("/myAccount").hasRole("USER")
+                .antMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/myLoans").hasRole("ROOT")
                 //Any user that is authenticated
                 .antMatchers("/myCards").authenticated()
                 .antMatchers("/user").authenticated()
