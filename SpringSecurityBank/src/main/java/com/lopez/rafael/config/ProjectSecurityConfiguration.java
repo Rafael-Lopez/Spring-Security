@@ -1,5 +1,6 @@
 package com.lopez.rafael.config;
 
+import com.lopez.rafael.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -71,7 +73,8 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf()
                 //csrf should not be enabled for /contact page, but it should for the rest
                 .ignoringAntMatchers("/contact")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .and().addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
             .authorizeRequests()
                 //Only users that are authenticated and have the given role
                 //Spring automatically prefixes the role we pass in with "ROLE_", that's why in the DB
