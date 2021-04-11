@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.lopez.rafael.repository")
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		@ComponentScan("com.lopez.rafael.controller"),
 		@ComponentScan("com.lopez.rafael.config")
 })
+@EnableWebSecurity(debug = true)
 public class SpringSecurityBankApplication {
 
 	public static void main(String[] args) {
