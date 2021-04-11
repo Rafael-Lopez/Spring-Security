@@ -1,6 +1,7 @@
 package com.lopez.rafael.config;
 
 import com.lopez.rafael.filter.AuthoritiesLoggingAfterFilter;
+import com.lopez.rafael.filter.AuthoritiesLoggingAtFilter;
 import com.lopez.rafael.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,8 +76,10 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //csrf should not be enabled for /contact page, but it should for the rest
                 .ignoringAntMatchers("/contact")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and().addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-            .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+            .and()
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
             .authorizeRequests()
                 //Only users that are authenticated and have the given role
                 //Spring automatically prefixes the role we pass in with "ROLE_", that's why in the DB
