@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -48,7 +50,11 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
         /*
          * Custom configuration as per our requirements
          */
-        http
+        //To not generate the default JSESSIONID (which is stored in the Http session of the server)
+        //that Spring Security creates, we use SessionCreationPolicy.STATELESS
+        //We are basically telling Spring to not create Http sessions nor tokens, we are fully in charge
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .cors()
                 .configurationSource(new CorsConfigurationSource() {
                     @Override
@@ -59,7 +65,8 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
                         config.setMaxAge(3600L);
-
+                        //This is how we exposed the JWT token we are going to create
+                        config.setExposedHeaders(Arrays.asList("Authorization"));
                         return config;
                     }
                 })
@@ -73,10 +80,8 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
             //if they are the same the request is accepted, otherwise, 403 is returned to the client.
             //https://stackoverflow.com/a/62650184
             .csrf()
-                //csrf should not be enabled for /contact page, but it should for the rest
-                .ignoringAntMatchers("/contact")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and()
+                // We are disabling CSRF because we are going to use JWT, which can be used as a token for CSRF on the client side
+                .disable()
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
                 .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
