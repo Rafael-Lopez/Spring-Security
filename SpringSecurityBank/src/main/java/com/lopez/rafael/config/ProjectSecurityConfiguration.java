@@ -1,8 +1,6 @@
 package com.lopez.rafael.config;
 
-import com.lopez.rafael.filter.AuthoritiesLoggingAfterFilter;
-import com.lopez.rafael.filter.AuthoritiesLoggingAtFilter;
-import com.lopez.rafael.filter.RequestValidationBeforeFilter;
+import com.lopez.rafael.filter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -84,6 +82,8 @@ public class ProjectSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JWTTokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
             .authorizeRequests()
                 //Only users that are authenticated and have the given role
